@@ -113,4 +113,44 @@ namespace KursKPO
             return variance / (n - 1);
         }
     }
+    /*!
+    *   @brief Класс GiniDifference предназначен для вычисления разности Джини выборки.
+    */
+    class GiniDifference
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+         * @param N Объем выборки.
+         */
+        private readonly int N;
+        /*!
+        *   @brief Конструктор класса GiniDifference.
+        */
+        public GiniDifference(List<double> sample)
+        {
+            Sample = sample;
+            N = sample.Count;
+        }
+        /*!
+        *   @brief Метод FindDifference вычисляет разность Джини выборки.
+        *   @return Разность Джини выборки.
+        */
+        public double FindDifference()
+        {
+            double diff = 0;
+            for (int i = 0; i < N - 1; i++)
+            {
+                double temp = 0;
+                for (int j = i + 1; j < N; j++)
+                {
+                    temp += Math.Abs(Sample[i] - Sample[j]);
+                }
+                diff += temp;
+            }
+            return (2 * diff) / (N * (N - 1));
+        }
+    }
 }
