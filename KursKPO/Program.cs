@@ -190,4 +190,82 @@ namespace KursKPO
             return centralMoment / n;
         }
     }
+    /*!
+    *   @brief  Класс SelectiveQuantile предназначен для получения выборочного квантиля.
+    */
+    class SelectiveQuantile
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+         * @param Quantile Значение выборочного квантиля.
+         */
+        private readonly double Quantile;
+        /*!
+        *   @brief Конструктор класса SelectiveQuantile.
+        */
+        public SelectiveQuantile(List<double> sample, double quantile)
+        {
+            Sample = sample;
+            Quantile = quantile;
+        }
+        /*!
+        *   @brief Метод GetQuantile возвращает выборочный квантиль.
+        *   @return Значение выборочного квантиля.
+        */
+        public double GetQuantile()
+        {
+            Sample.Sort();
+            int n = Sample.Count;
+            return Sample[(int)(Quantile * n)];
+        }
+    }
+    /*!
+    *   @brief  Класс HodgesLehman предназначен для вычисления оценки по методу Ходжса-Лемана.
+    */
+    class HodgesLehman
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+        *   @brief Конструктор класса HodgesLehman.
+        */
+        public HodgesLehman(List<double> sample)
+        {
+            Sample = sample;
+        }
+        /*!
+        *   @brief Метод FindEstimation вычисляет оценку по методу Ходжса-Лемана.
+        *   @return Значение оценки.
+        */
+        public double FindEstimation()
+        {
+            List<double> sampleTwo = new List<double>();
+            int n = Sample.Count;
+
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = i + 1; j < n; j++)
+                {
+                    sampleTwo.Add((Sample[i] + Sample[j]) / 2);
+                }
+            }
+
+            sampleTwo.Sort();
+            int sampleTwoLength = sampleTwo.Count;
+
+            if (sampleTwoLength % 2 != 0)
+            {
+                return sampleTwo[sampleTwoLength / 2];
+            }
+            else
+            {
+                return (sampleTwo[sampleTwoLength / 2] + sampleTwo[sampleTwoLength / 2 - 1]) / 2;
+            }
+        }
+    }
 }
