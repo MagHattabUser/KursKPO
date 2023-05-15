@@ -113,4 +113,81 @@ namespace KursKPO
             return variance / (n - 1);
         }
     }
+    /*!
+    *   @brief Класс GiniDifference предназначен для вычисления разности Джини выборки.
+    */
+    class GiniDifference
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+         * @param N Объем выборки.
+         */
+        private readonly int N;
+        /*!
+        *   @brief Конструктор класса GiniDifference.
+        */
+        public GiniDifference(List<double> sample)
+        {
+            Sample = sample;
+            N = sample.Count;
+        }
+        /*!
+        *   @brief Метод FindDifference вычисляет разность Джини выборки.
+        *   @return Разность Джини выборки.
+        */
+        public double FindDifference()
+        {
+            double diff = 0;
+            for (int i = 0; i < N - 1; i++)
+            {
+                double temp = 0;
+                for (int j = i + 1; j < N; j++)
+                {
+                    temp += Math.Abs(Sample[i] - Sample[j]);
+                }
+                diff += temp;
+            }
+            return (2 * diff) / (N * (N - 1));
+        }
+    }
+    /*!
+    *   @brief Класс SampleCentralMoment предназначен для вычисления центрального момента выборки.
+    */
+    class SampleCentralMoment
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+         * @param K Порядок центрального момента.
+         */
+        private readonly int K;
+        /*!
+        *   @brief Конструктор класса SampleCentralMoment.
+        */
+        public SampleCentralMoment(List<double> sample, int k)
+        {
+            Sample = sample;
+            K = k;
+        }
+        /*!
+        *   @brief Метод FindCentralMoment вычисляет центральный момент выборки.
+        *   @return Значение центрального момента выборки.
+        */
+        public double FindCentralMoment()
+        {
+            int n = Sample.Count;
+            SampleMean mean = new SampleMean(Sample);
+            double centralMoment = 0;
+            foreach (var element in Sample)
+            {
+                centralMoment += Math.Pow(element - mean.FindMean(), K);
+            }
+            return centralMoment / n;
+        }
+    }
 }
