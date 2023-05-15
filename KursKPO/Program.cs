@@ -153,4 +153,41 @@ namespace KursKPO
             return (2 * diff) / (N * (N - 1));
         }
     }
+    /*!
+    *   @brief Класс SampleCentralMoment предназначен для вычисления центрального момента выборки.
+    */
+    class SampleCentralMoment
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+         * @param K Порядок центрального момента.
+         */
+        private readonly int K;
+        /*!
+        *   @brief Конструктор класса SampleCentralMoment.
+        */
+        public SampleCentralMoment(List<double> sample, int k)
+        {
+            Sample = sample;
+            K = k;
+        }
+        /*!
+        *   @brief Метод FindCentralMoment вычисляет центральный момент выборки.
+        *   @return Значение центрального момента выборки.
+        */
+        public double FindCentralMoment()
+        {
+            int n = Sample.Count;
+            SampleMean mean = new SampleMean(Sample);
+            double centralMoment = 0;
+            foreach (var element in Sample)
+            {
+                centralMoment += Math.Pow(element - mean.FindMean(), K);
+            }
+            return centralMoment / n;
+        }
+    }
 }
