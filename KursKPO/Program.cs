@@ -268,4 +268,58 @@ namespace KursKPO
             }
         }
     }
+    /*!
+    *   @brief  Класс SampleCoefficentAsymmetry предназначен для вычисления коэффициента асимметрии выборки.
+    */
+    class SampleCoefficentAsymmetry
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+        *   @brief Конструктор класса SampleCoefficentAsymmetry.
+        */
+        public SampleCoefficentAsymmetry(List<double> sample)
+        {
+            Sample = sample;
+        }
+        /*!
+        *   @brief Метод FindCoefficentAsymmetry вычисляет коэффициент асимметрии выборки.
+        *   @return Значение коэффициента асимметрии выборки.
+        */
+        public double FindCoefficentAsymmetry()
+        {
+            SampleCentralMoment centralMoment = new SampleCentralMoment(Sample, 3);
+            SampleVar variance = new SampleVar(Sample);
+            return centralMoment.FindCentralMoment() / Math.Pow(variance.FindVar(), 3);
+        }
+    }
+    /*!
+    *   @brief  Класс SampleCoefficentExcess предназначен для вычисления коэффициента эксцесса выборки.
+    */
+    class SampleCoefficentExcess
+    {
+        /*!
+        *   @param Sample Список числовых значений выборки.
+        */
+        private readonly List<double> Sample;
+        /*!
+        *   @brief Конструктор класса SampleCoefficentExcess.
+        */
+        public SampleCoefficentExcess(List<double> sample)
+        {
+            Sample = sample;
+        }
+        /*!
+        *   @brief Метод FindCoefficentExcess вычисляет коэффициент эксцесса выборки.
+        *   @return Значение коэффициента эксцесса выборки.
+        */
+        public double FindCoefficentExcess()
+        {
+            SampleCentralMoment centralMoment = new SampleCentralMoment(Sample, 4);
+            SampleVar variance = new SampleVar(Sample);
+            return centralMoment.FindCentralMoment() / Math.Pow(variance.FindVar(), 4);
+        }
+    }
 }
